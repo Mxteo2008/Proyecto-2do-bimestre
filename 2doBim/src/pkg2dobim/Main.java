@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package proyecto_2d0_bimestre;
+package pkg2dobim;
 
 /**
  *
  * @author msjim
  */
-public class Proyecto_2d0_bimestre {
+public class Main {
 
     /**
      * @param args the command line arguments
