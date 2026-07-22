@@ -1,14 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 /**
- *
- * @author msjim
+ * Tipos de activo soportados. Sirve para discriminar el tipo en la BD
+ * y en reportes, sin tener que usar instanceof en las capas superiores.
  */
-public class TipoActivo {
-    
+public enum TipoActivo {
+    HARDWARE,
+    PERIFERICO,
+    LICENCIA
 }
