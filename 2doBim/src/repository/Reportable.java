@@ -1,14 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package repository;
 
+import model.Activo;
+import model.TipoActivo;
+import java.util.List;
+
 /**
- *
- * @author msjim
+ * Interfaz chica y separada de reportes (ISP).
  */
-public class Reportable {
-    
+public interface Reportable {
+
+    List<Activo> filtrarPorTipo(TipoActivo tipo);
+
+    double costoTotalMantenimiento();
 }
