@@ -18,10 +18,9 @@ public class Main {
         Connection conexion = ConexionSQLite.obtenerConexion();
         DatabaseInitializer.inicializar(conexion);
 
-        // Unico lugar del sistema donde se conoce la implementacion concreta (DIP):
         ActivoRepositorySQLite repositorioConcreto = new ActivoRepositorySQLite(conexion);
-        ActivoRepository activoRepository = repositorioConcreto;      // se usa como interfaz CRUD
-        // repositorioConcreto tambien implementa Reportable, se pasa directo abajo
+        ActivoRepository activoRepository = repositorioConcreto;      
+        
 
         ActivoService activoService = new ActivoService(activoRepository);
         ReporteService reporteService = new ReporteService(repositorioConcreto);
