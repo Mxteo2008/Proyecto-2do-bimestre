@@ -1,21 +1,36 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pkg2dobim;
 
-/**
- *
- * @author msjim
- */
+import controller.ActivoController;
+import controller.MantenimientoController;
+import repository.ActivoRepository;
+import repository.ActivoRepositorySQLite;
+import repository.ConexionSQLite;
+import repository.DatabaseInitializer;
+import service.ActivoService;
+import service.ConsolaView;
+import service.ReporteService;
+
+import java.sql.Connection;
+
 public class Main {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        // TODO code application logic here
+        Connection conexion = ConexionSQLite.obtenerConexion();
+        DatabaseInitializer.inicializar(conexion);
+
+        // Unico lugar del sistema donde se conoce la implementacion concreta (DIP):
+        ActivoRepositorySQLite repositorioConcreto = new ActivoRepositorySQLite(conexion);
+        ActivoRepository activoRepository = repositorioConcreto;      // se usa como interfaz CRUD
+        // repositorioConcreto tambien implementa Reportable, se pasa directo abajo
+
+        ActivoService activoService = new ActivoService(activoRepository);
+        ReporteService reporteService = new ReporteService(repositorioConcreto);
+
+        ActivoController activoController = new ActivoController(activoService);
+        MantenimientoController mantenimientoController =
+                new MantenimientoController(activoService, reporteService);
+
+        ConsolaView consola = new ConsolaView(activoController, mantenimientoController);
+        consola.iniciar();
     }
-    
 }

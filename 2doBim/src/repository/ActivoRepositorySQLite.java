@@ -17,11 +17,7 @@ public class ActivoRepositorySQLite implements ActivoRepository, Reportable {
 
     @Override
     public void guardar(Activo activo) {
-        String sql = """
-            INSERT INTO activos (tipo, nombre, fecha_adquisicion, costo_base, estado,
-                                  vida_util_anios, marca, tipo_conexion, fecha_expiracion, numero_licencias)
-            VALUES (?,?,?,?,?,?,?,?,?,?)
-            """;
+        String sql = "INSERT INTO activos (tipo, nombre, fecha_adquisicion, costo_base, estado,\n" + "                      vida_util_anios, marca, tipo_conexion, fecha_expiracion, numero_licencias)\n" + "VALUES (?,?,?,?,?,?,?,?,?,?)\n";
         try (PreparedStatement ps = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             enlazarParametros(ps, activo);
             ps.executeUpdate();
@@ -66,13 +62,10 @@ public class ActivoRepositorySQLite implements ActivoRepository, Reportable {
         return resultado;
     }
 
+  
     @Override
     public void actualizar(Activo activo) {
-        String sql = """
-            UPDATE activos SET tipo=?, nombre=?, fecha_adquisicion=?, costo_base=?, estado=?,
-                   vida_util_anios=?, marca=?, tipo_conexion=?, fecha_expiracion=?, numero_licencias=?
-            WHERE id=?
-            """;
+        String sql = "UPDATE activos SET tipo=?, nombre=?, fecha_adquisicion=?, costo_base=?, estado=?,\n" + "       vida_util_anios=?, marca=?, tipo_conexion=?, fecha_expiracion=?, numero_licencias=?\n" + "WHERE id=?\n";
         try (PreparedStatement ps = conexion.prepareStatement(sql)) {
             enlazarParametros(ps, activo);
             ps.setInt(11, activo.getId());
@@ -114,7 +107,6 @@ public class ActivoRepositorySQLite implements ActivoRepository, Reportable {
         return resultado;
     }
 
-    @Override
     public double costoTotalMantenimiento() {
         double total = 0;
         for (Activo activo : listarTodos()) {

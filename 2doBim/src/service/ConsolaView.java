@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package service;
 
 import controller.ActivoController;
@@ -14,11 +10,9 @@ import repository.RepositorioException;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
-/**
- *
- * @author Sexxxrvio
- */
+
 public class ConsolaView {
 
     private final Scanner scanner = new Scanner(System.in);
@@ -56,14 +50,29 @@ public class ConsolaView {
 
     private void procesarOpcion(int opcion) throws RepositorioException {
         switch (opcion) {
-            case 1: registrarActivo(); break;
-            case 2: listarActivos(); break;
-            case 3: buscarActivo(); break;
-            case 4: eliminarActivo(); break;
-            case 5: mostrarCostoTotal(); break;
-            case 6: mantenimientoController.mostrarReportePorTipo(); break;
-            case 0: System.out.println("Saliendo..."); break;
-            default: System.out.println("Opcion invalida");
+            case 1:
+                registrarActivo();
+                break;
+            case 2:
+                listarActivos();
+                break;
+            case 3:
+                buscarActivo();
+                break;
+            case 4:
+                eliminarActivo();
+                break;
+            case 5:
+                mostrarCostoTotal();
+                break;
+            case 6:
+                mantenimientoController.mostrarReportePorTipo();
+                break;
+            case 0:
+                System.out.println("Saliendo...");
+                break;
+            default:
+                System.out.println("Opcion invalida");
         }
     }
 
@@ -72,23 +81,24 @@ public class ConsolaView {
         int tipo = leerEntero("Tipo: ");
         String nombre = leerTexto("Nombre: ");
         double costoBase = leerDouble("Costo base: ");
+        String estado = "ACTIVO";
 
         Activo nuevo;
         switch (tipo) {
             case 1:
-                String componente = leerTexto("Tipo de componente: ");
+                String marca = leerTexto("Marca: ");
                 int vidaUtil = leerEntero("Vida util (anios): ");
-                nuevo = new Hardware(0, nombre, LocalDate.now(), costoBase, componente, vidaUtil);
+                nuevo = new Hardware(0, nombre, LocalDate.now(), costoBase, estado, vidaUtil, marca);
                 break;
             case 2:
                 String conexion = leerTexto("Tipo de conexion: ");
-                nuevo = new Periferico(0, nombre, LocalDate.now(), costoBase, conexion);
+                nuevo = new Periferico(0, nombre, LocalDate.now(), costoBase, estado, conexion);
                 break;
             case 3:
-                int anios = leerEntero("Vigencia (anios): ");
-                double renovacion = leerDouble("Costo renovacion anual: ");
-                nuevo = new Licencia(0, nombre, LocalDate.now(), costoBase,
-                        LocalDate.now().plusYears(anios), renovacion);
+                int anios = leerEntero("Vigencia (anios hasta expiracion): ");
+                int numeroLicencias = leerEntero("Numero de licencias: ");
+                nuevo = new Licencia(0, nombre, LocalDate.now(), costoBase, estado,
+                        LocalDate.now().plusYears(anios), numeroLicencias);
                 break;
             default:
                 throw new IllegalArgumentException("Tipo invalido");
@@ -99,7 +109,7 @@ public class ConsolaView {
     }
 
     private void listarActivos() throws RepositorioException {
-        List<Activo> activos = activoController.listar();
+        List<Activo> activos = (List<Activo>) activoController.listar();
         if (activos.isEmpty()) {
             System.out.println("No hay activos registrados.");
         }
@@ -109,11 +119,14 @@ public class ConsolaView {
     }
 
     private void buscarActivo() throws RepositorioException {
-        int id = leerEntero("Id a buscar: ");
-        activoController.buscar(id)
-                .ifPresentOrElse(System.out::println,
-                        () -> System.out.println("No existe activo con ese id."));
+    int id = leerEntero("Id a buscar: ");
+    Optional<Activo> resultado = (Optional<Activo>) activoController.buscar(id);
+    if (resultado.isPresent()) {
+        System.out.println(resultado.get());
+    } else {
+        System.out.println("No existe activo con ese id.");
     }
+}
 
     private void eliminarActivo() throws RepositorioException {
         int id = leerEntero("Id a eliminar: ");
@@ -153,4 +166,3 @@ public class ConsolaView {
         return scanner.nextLine();
     }
 }
-
