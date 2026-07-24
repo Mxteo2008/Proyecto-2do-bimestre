@@ -6,21 +6,7 @@ import java.sql.Statement;
 
 public class DatabaseInitializer {
 
-    private static final String CREATE_TABLE = """
-        CREATE TABLE IF NOT EXISTS activos (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            tipo TEXT NOT NULL,
-            nombre TEXT NOT NULL,
-            fecha_adquisicion TEXT,
-            costo_base REAL NOT NULL,
-            estado TEXT,
-            vida_util_anios INTEGER,
-            marca TEXT,
-            tipo_conexion TEXT,
-            fecha_expiracion TEXT,
-            numero_licencias INTEGER
-        )
-        """;
+    private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS activos (\n" + "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" + "    tipo TEXT NOT NULL,\n" + "    nombre TEXT NOT NULL,\n" + "    fecha_adquisicion TEXT,\n" + "    costo_base REAL NOT NULL,\n" + "    estado TEXT,\n" + "    vida_util_anios INTEGER,\n" + "    marca TEXT,\n" + "    tipo_conexion TEXT,\n" + "    fecha_expiracion TEXT,\n" + "    numero_licencias INTEGER\n" + ")\n";
 
     private DatabaseInitializer() {
     }
